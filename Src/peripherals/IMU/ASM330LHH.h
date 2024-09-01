@@ -10,7 +10,6 @@
 #ifndef REALOP1_PERIPHERALS_IMU_H_
 #define REALOP1_PERIPHERALS_IMU_H_
 
-#include <I2C/i2c.h>
 #include <SPI/spi.h>
 
 //Macros

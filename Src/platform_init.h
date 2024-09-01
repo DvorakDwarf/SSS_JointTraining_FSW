@@ -20,12 +20,10 @@
 #include <Timers/timers.h>
 #include <Buttons/buttons.h>
 #include <SPI/spi.h>
-#include <QSPI/qspi.h>
 #include <LED/led.h>
 #include <RTC/rtc.h>
 #include <UART/uart.h>
 #include <IMU/ASM330LHH.h>
-#include <MAG/QMC5883L.h>
 #include <print_scan.h>
 
 
@@ -67,7 +65,6 @@ void init_first_time() {
  */
 void init_platform(bool run_scheduler) {
 	imu_init(IMU_ODR_3333_Hz, IMU_FS_2_g, IMU_ODR_3333_Hz, IMU_FS_1000_dps);
-	mag_init(MAG_ODR_200_Hz, MAG_FS_8_G, MAG_OVERSAMPLE_512);
     //TODO: hdd_init().
     //TODO: initialize intercomm.
     //TODO: fetch flash header.
