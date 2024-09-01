@@ -40,13 +40,13 @@ void EXTI15_10_IRQHandler(){
 
 	if (EXTI->PR1 & EXTI_PR1_PIF10) {		// Button 0
 		EXTI->PR1 |= EXTI_PR1_PIF10;
-#if OP_REV == 1 || OP_REV == 2
+#if OP_REV == 2
 		Button0_Handler();
 #endif
 	}
 	else if (EXTI->PR1 & EXTI_PR1_PIF11) {	// Button 1
 		EXTI->PR1 |= EXTI_PR1_PIF11;
-#if OP_REV == 1 || OP_REV == 2
+#if OP_REV == 2
 		Button1_Handler();
 #endif
 	}

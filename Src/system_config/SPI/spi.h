@@ -22,13 +22,7 @@
 #include <GPIO/gpio.h>
 
 // predefined macros for cs_port,cs_pin (useful for later spi functions)
-#if OP_REV == 1
-
-#define SPI1_CS			  UNUSED_GPIO
-#define SPI2_CS			  GPIOB,12
-#define SPI3_CS			  UNUSED_GPIO
-
-#elif OP_REV == 2
+#if OP_REV == 2
 
 #define SPI1_CS			  GPIOA, 4
 #define SPI2_CS			  UNUSED_GPIO

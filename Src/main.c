@@ -11,7 +11,7 @@ int main() {
     init_platform(!RUN_TEST);
     // ^ don't want to run the Scheduler in case we are running other tests
 
-#if (RUN_TEST==1) && (TEST_ID != 0)
+	#if (RUN_TEST==1) && (TEST_ID != 0)
 
     void (*testFunc)();
     testFunc = getTestFunction(TEST_ID);
@@ -25,9 +25,13 @@ int main() {
 	//}
 
 	while (1) {
-		continue;
+		printMsg("Testing Stuff\r\n");
+
+		nop(1000000);
 	}
 
 #endif
+
+
 
 }

@@ -44,12 +44,7 @@ struct _rx_fifo {
 };
 typedef struct _rx_fifo USART_ReceiverBuffer;
 
-#if OP_REV == 1
-
-USART_ReceiverBuffer USART1_RxBuffer;
-USART_ReceiverBuffer USART3_RxBuffer;
-
-#elif OP_REV == 2
+#if OP_REV == 2
 
 USART_ReceiverBuffer USART1_RxBuffer;
 USART_ReceiverBuffer LPUART1_RxBuffer;
@@ -60,13 +55,7 @@ USART_ReceiverBuffer LPUART1_RxBuffer;
 USART_ReceiverBuffer* uart_revisionBusDistinguisher(USART_TypeDef *bus) {
 	USART_ReceiverBuffer *rxbuff = NULL;
 
-#if OP_REV == 1
-	if (bus == USART1) {
-		rxbuff = &USART1_RxBuffer;
-	} else if (bus == USART3) {
-		rxbuff = &USART3_RxBuffer;
-	}
-#elif OP_REV == 2
+#if OP_REV == 2
 	if (bus == USART1) {
 		rxbuff = &USART1_RxBuffer;
 	} else if (bus == LPUART1) {
@@ -100,28 +89,7 @@ void usart1_gpio_init() {
 
 	//	TODO: Forcing RTS and CTS High
 
-#if OP_REV == 1
-
-	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
-	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOGEN;
-	while (GPIOA->OTYPER == 0xFFFFFFFF);
-	while (GPIOG->OTYPER == 0xFFFFFFFF);
-
-	// configure the USART Pins to Alternate Function mode
-	GPIOA->MODER &= ~(GPIO_MODER_MODE9_Msk);
-	GPIOG->MODER &= ~(GPIO_MODER_MODE10_Msk);
-
-	GPIOA->MODER |= GPIO_MODER_MODE9_1;
-	GPIOG->MODER |= GPIO_MODER_MODE10_1;
-
-	// configure each pin to AF7
-	GPIOA->AFR[1] &= ~(GPIO_AFRH_AFSEL9_Msk);
-	GPIOG->AFR[1] &= ~(GPIO_AFRH_AFSEL10_Msk);
-
-	GPIOA->AFR[1] |= (7U << GPIO_AFRH_AFSEL9_Msk);
-	GPIOG->AFR[1] |= (7U << GPIO_AFRH_AFSEL10_Msk);
-
-#elif OP_REV == 2
+#if OP_REV == 2
 
 	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOBEN;
 	while (GPIOB->OTYPER == 0xFFFFFFFF);
@@ -146,28 +114,6 @@ void usart2_gpio_init() {
 }
 
 void usart3_gpio_init() {
-
-#if OP_REV == 1
-
-	/*
-	 * OP REV 1 GPIO
-	 * 		TX		GPIO C 4		Alternate Function 7
-	 * 		RX		GPIO C 5		Alternate Function 7
-	 */
-
-	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOCEN;
-	while (GPIOC->OTYPER == 0xFFFFFFFF);
-
-	// configure the USART Pins to Alternate Function mode
-	GPIOC->MODER &= ~(GPIO_MODER_MODE4_Msk | GPIO_MODER_MODE5_Msk);
-	GPIOC->MODER |= (GPIO_MODER_MODE4_1 | GPIO_MODER_MODE5_1);
-
-	// configure each pin to AF7
-	GPIOC->AFR[0] &= ~(GPIO_AFRL_AFSEL4_Msk | GPIO_AFRL_AFSEL5_Msk);
-	GPIOC->AFR[0] |= (7U << GPIO_AFRL_AFSEL4_Pos) | (7U << GPIO_AFRL_AFSEL5_Pos);
-
-#endif
-
 	return;
 }
 
@@ -352,13 +298,13 @@ int usart_recieveBytes(USART_TypeDef *bus, uint8_t buffer[], uint16_t size) {
 void USART1_IRQHandler() {
 	if (USART1->ISR & USART_ISR_RXNE) {
 		USART1->ISR &= ~USART_ISR_RXNE;
-#if OP_REV == 1 || OP_REV == 2
+#if OP_REV == 2
 		enqueueBuffer(USART1_RxBuffer, USART1);
 #endif
 	}
 	if (USART1->ISR & USART_ISR_RTOF) {
 		USART1->ISR &= ~USART_ISR_RTOF;
-#if OP_REV == 1 || OP_REV == 2
+#if OP_REV == 2
 		USART1_RxBuffer.timedout = true;
 #endif
 	}
@@ -376,15 +322,9 @@ void USART2_IRQHandler() {
 void USART3_IRQHandler() {
 	if (USART3->ISR & USART_ISR_RXNE) {
 		USART3->ISR &= ~USART_ISR_RXNE;
-#if OP_REV == 1
-		enqueueBuffer(USART3_RxBuffer, USART3);
-#endif
 	}
 	if (USART3->ISR & USART_ISR_RTOF) {
 		USART3->ISR &= ~USART_ISR_RTOF;
-#if OP_REV == 1
-		USART3_RxBuffer.timedout = true;
-#endif
 	}
 }
 

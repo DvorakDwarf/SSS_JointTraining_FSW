@@ -74,36 +74,6 @@ void spi3_gpioInit() {
 
 void spi2_gpioInit() {
 
-#if OP_REV == 1
-
-	// Reset mode on each SPI-2 pin
-	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOBEN;
-	while (GPIOB->OTYPER == 0xFFFFFFFF);
-	GPIOB->PUPDR |= GPIO_PUPDR_PUPD12_0;
-	GPIOB->MODER &= ~(
-		  GPIO_MODER_MODE12_Msk
-		| GPIO_MODER_MODE13_Msk
-		| GPIO_MODER_MODE14_Msk
-		| GPIO_MODER_MODE15_Msk);
-	// set each pin to Alternate function
-	GPIOB->MODER |=
-		  GPIO_MODER_MODE12_0
-		| GPIO_MODER_MODE13_1
-		| GPIO_MODER_MODE14_1
-		| GPIO_MODER_MODE15_1;
-	// Reset alternate function selection on each SPI-2 pin
-	GPIOB->AFR[1] &= ~(
-		  GPIO_AFRH_AFSEL13_Msk
-		| GPIO_AFRH_AFSEL14_Msk
-		| GPIO_AFRH_AFSEL15_Msk);
-	// set each pin to AF5
-	GPIOB->AFR[1] |=
-		  5U << GPIO_AFRH_AFSEL13_Pos
-		| 5U << GPIO_AFRH_AFSEL14_Pos
-		| 5U << GPIO_AFRH_AFSEL15_Pos;
-
-#endif
-
 }
 
 void spi1_gpioInit() {

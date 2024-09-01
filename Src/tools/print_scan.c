@@ -13,13 +13,11 @@
 #include "print_scan.h"
 #include <UART/uart.h>
 
-#if OP_REV == 1
-#define ConsoleUART 	USART3
-#elif OP_REV == 2
+#if OP_REV == 2
 #define ConsoleUART 	LPUART1
 #endif
 
-#define UART_BAUDRATE	9600
+#define UART_BAUDRATE	115200
 
 void printer_init() {
 	usart_init(ConsoleUART, UART_BAUDRATE);

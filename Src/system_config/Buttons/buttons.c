@@ -28,7 +28,7 @@ bool button1;
  */
 void button_interruptConfig() {
 
-#if OP_REV == 1 || OP_REV == 2
+#if OP_REV == 2
 
 	/*
 	 * For Buttons on PB10 and PB11
@@ -58,7 +58,7 @@ void button_interruptConfig() {
 
 void buttons_init() {
 
-#if OP_REV == 1 || OP_REV == 2
+#if OP_REV == 2
 
 	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOBEN;
 	while (GPIOB->OTYPER == 0xFFFFFFFF);
