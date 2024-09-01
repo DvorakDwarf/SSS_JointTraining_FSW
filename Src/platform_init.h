@@ -63,7 +63,7 @@ void init_first_time() {
  *        in the background
  * @returns None
  */
-void init_platform(bool run_scheduler) {
+void init_platform() {
 	imu_init(IMU_ODR_3333_Hz, IMU_FS_2_g, IMU_ODR_3333_Hz, IMU_FS_1000_dps);
     //TODO: hdd_init().
     //TODO: initialize intercomm.
@@ -76,7 +76,7 @@ void init_platform(bool run_scheduler) {
 	led_init();
 	buttons_init();
 	printer_init();
-	systick_init(run_scheduler);
+	systick_init();
 }
 
 #endif // REALOP1_PLATFORM_INIT_H

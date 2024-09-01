@@ -48,7 +48,7 @@ void pwm_setDutyCycle(uint8_t percent);
  *        call by the Systick
  * @returns none
 */
-void systick_init(bool run_scheduler);
+void systick_init();
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-

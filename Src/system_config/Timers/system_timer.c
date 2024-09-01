@@ -33,16 +33,12 @@ uint64_t getSysTime() {
 /*                                 SYSTICK                                   */
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
-bool _run_scheduler;
-
-void systick_init(bool run_scheduler) {
+void systick_init() {
 	// configure for 1 ms period
 	SysTick->LOAD = (core_MHz / 8) * 1000;
 	// use AHB/8 as input clock, and enable counter interrupt
 	SysTick->CTRL = 0x3;
 	NVIC_EnableIRQ(SysTick_IRQn);
-
-	_run_scheduler = run_scheduler;
 }
 
 
@@ -57,7 +53,4 @@ void systick_init(bool run_scheduler) {
 void SysTick_Handler() {
 	systick_time++;
 	blinky();
-	if (_run_scheduler == true) {
-		// scheduler();
-	}
 }
