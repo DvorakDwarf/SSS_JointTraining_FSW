@@ -78,9 +78,11 @@ void systick_init() {
  */
 
 void SysTick_Handler() {
+	// A simple heartbeat
 	systick_time++;
 	blinky();
 
+//  Uncomment the following, and comment the lines above for some nicer blinking
 //	static int led_num = 0;
 //	printMsg("led_num is: %d", led_num);
 //
