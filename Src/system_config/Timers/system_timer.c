@@ -16,7 +16,7 @@
 
 
 // Global (external) variables and functions
-extern int core_MHz;	// from core_config.h
+extern int core_MHz;	// from core_config.h, core_MHz = 80MHz
 
 uint64_t systick_time = 0;
 
@@ -43,7 +43,7 @@ uint64_t getSysTime() {
 
 void systick_init() {
 	// Clock Ticks for 1 SysTick period
-	// (10Mhz) * (1ms) = 10^4 ticks
+	// (10Mhz) * (10ms) = 10^5 ticks
 	uint32_t clockTicks = 1000000;
 
 	// subtract 1 because SysTick is an (n-1) to 0 counter
@@ -54,36 +54,19 @@ void systick_init() {
 	SysTick->VAL = (uint32_t) 0;
 
 
-
 	// Program Control and Status Register
-	// SysTick->CTRL[2]: CLKSOURCE to AHB/8
-	// SysTick->CTRL[1]: enable TICKINT to enable SysTick exception
-	// SysTick->CTRL[0]: enable counter
-	SysTick->CTRL = (0b011);
+	// SysTick->CTRL[2] = 0: CLKSOURCE - select AHB/8
+	// SysTick->CTRL[1] = 1: TICKINT - enable SysTick exception
+	// SysTick->CTRL[0] = 1: ENABLE - enable counter
+	uint32_t systick_ctrl = SysTick->CTRL;
+	// Clear necessary bits
+	systick_ctrl &= ~(SysTick_CTRL_CLKSOURCE_Msk << SysTick_CTRL_CLKSOURCE_Pos);	// systick_ctrl | 0b11
+
+	// Set necessary bits (or did we???)
+	systick_ctrl |= (1 << SysTick_CTRL_TICKINT_Pos);
+
+	SysTick->CTRL = systick_ctrl;
 }
-
-static int led_num = 0;
-
-void SysTick_Handler() {
-	led_num++;
-	if(led_num > 5) led_num = 0;
-
-	if(led_num > 0) { led_d0(1) }
-	else { led_d0(0); }
-
-	if(led_num > 1) { led_d1(1) }
-	else { led_d1(0); }
-
-	if(led_num > 2) { led_d2(1) }
-	else { led_d2(0); }
-
-	if(led_num > 3) { led_d3(1) }
-	else { led_d3(0); }
-
-	if(led_num > 4) { led_hb(1) }
-	else { led_hb(0); }
-}
-
 
 /**
  * Interrupt handler for the SysTick timer.
@@ -93,7 +76,29 @@ void SysTick_Handler() {
  * @param None
  * @returns None
  */
-//void SysTick_Handler() {
-//	systick_time++;
-//	blinky();
-//}
+
+void SysTick_Handler() {
+	systick_time++;
+	blinky();
+
+//	static int led_num = 0;
+//	printMsg("led_num is: %d", led_num);
+//
+//	led_num++;
+//	if(led_num > 5) led_num = 0;
+//
+//	if(led_num > 0) { led_d0(1) }
+//	else { led_d0(0); }
+//
+//	if(led_num > 1) { led_d1(1) }
+//	else { led_d1(0); }
+//
+//	if(led_num > 2) { led_d2(1) }
+//	else { led_d2(0); }
+//
+//	if(led_num > 3) { led_d3(1) }
+//	else { led_d3(0); }
+//
+//	if(led_num > 4) { led_hb(1) }
+//	else { led_hb(0); }
+}

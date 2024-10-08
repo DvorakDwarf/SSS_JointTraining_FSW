@@ -10,32 +10,9 @@
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+// Put PWM stuff here:
 
-#if OP_REV == 2
-
-#define PWMTimer 					TIM2
-#define PWMTimer_ClockEnable() 		RCC->APB1ENR1 |= RCC_APB1ENR1_TIM2EN
-#define	PWMTimer_ClockDisable() 	RCC->APB1ENR1 &= ~RCC_APB1ENR1_TIM2EN
-
-#endif
-
-#define PWM_TIMER_ON()  PWMTimer->CR1 |=  TIM_CR1_CEN;
-#define PWM_TIMER_OFF() PWMTimer->CR1 &= ~TIM_CR1_CEN;
-
-/**
- * Configures the PWM timer registers to generate a signal at a given period.
- *
- * @param   period Period of the PWM signal, in microseconds. Note: Cannot be above 32K.
- * @returns Boolean to indicate if the initialization was successful
- */
-bool pwm_initTimer(uint32_t period);
-/**
- * Changes the Duty Cycle of the PWM signal... assumes the PWM is being generated already.
- * NOTE: Some percentges might not work properly due to integer math causing rounding errors
- * 
- * @param percent A value between 0-100 to indicate 
-*/
-void pwm_setDutyCycle(uint8_t percent);
+void pwm_doSomething();
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
