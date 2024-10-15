@@ -44,7 +44,7 @@ uint64_t getSysTime() {
 void systick_init() {
 	// Clock Ticks for 1 SysTick period
 	// (10Mhz) * (10ms) = 10^5 ticks
-	uint32_t clockTicks = 1000000;
+	uint32_t clockTicks = 100000;
 
 	// subtract 1 because SysTick is an (n-1) to 0 counter
 	// That's our reload value
@@ -63,7 +63,8 @@ void systick_init() {
 	systick_ctrl &= ~(SysTick_CTRL_CLKSOURCE_Msk << SysTick_CTRL_CLKSOURCE_Pos);	// systick_ctrl | 0b11
 
 	// Set necessary bits (or did we???)
-	systick_ctrl |= (1 << SysTick_CTRL_TICKINT_Pos);
+	systick_ctrl |= (1 << SysTick_CTRL_TICKINT_Pos)
+		| (1 << SysTick_CTRL_ENABLE_Pos);
 
 	SysTick->CTRL = systick_ctrl;
 }
