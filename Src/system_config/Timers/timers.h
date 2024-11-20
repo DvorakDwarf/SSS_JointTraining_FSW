@@ -12,7 +12,12 @@
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 // Put PWM stuff here:
 
-void pwm_doSomething();
+void init_pwm();
+void pwm_set_dutycycle(float percentage);
+
+// Use these to allow stopping/starting the timer
+#define PWM_TIMER_ON()  TIM2->CR1 |=  TIM_CR1_CEN;
+#define PWM_TIMER_OFF() TIM2->CR1 &= ~TIM_CR1_CEN;
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
